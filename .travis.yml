@@ -5,9 +5,14 @@ before_script:
   - export TZ=America/New_York
 install:
     - npm install --prefix client
+    - npm install --prefix server-sqlite
 cache:
   directories:
     - client/node_modules
+    - server-sqlite/node_modules
 script:
   - npm run build --prefix client
   - npm test --prefix client
+  - npm run lint lint --prefix client
+  - npm test --prefix server-sqlite
+  - npm run lint --prefix server-sqlite
