@@ -18,7 +18,7 @@ class FilmExplorer extends Component {
   }
 
   componentDidMount() {
-    fetch('/api/movies/')
+    fetch('/api/movies/', { headers: new Headers({ Accept: 'application/json' }) })
       .then((response) => {
         if (!response.ok) {
           throw new Error(response.status_text);
@@ -38,7 +38,10 @@ class FilmExplorer extends Component {
     fetch(`/api/movies/${filmid}`, {
       method: 'PUT',
       body: JSON.stringify(newMovie),
-      headers: new Headers({ 'Content-type': 'application/json' }),
+      headers: new Headers({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error(response.status_text);
