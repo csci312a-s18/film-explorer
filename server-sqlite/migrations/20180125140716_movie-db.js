@@ -3,7 +3,7 @@
 exports.up = function (knex, Promise) {
   return knex.schema
     .createTable('Movie', (table) => {
-      table.integer('id').primary();
+      table.integer('id').unsigned().primary();
       table.text('overview');
       table.string('release_date');
       table.string('poster_path');
@@ -12,8 +12,9 @@ exports.up = function (knex, Promise) {
       table.integer('rating');
     })
     .createTable('Genre', (table) => {
-      table.integer('id');
       table.integer('movieId').unsigned().references('id').inTable('Movie');
+      table.integer('genreId');
+      table.primary(['movieId', 'genreId']);
     });
 };
 

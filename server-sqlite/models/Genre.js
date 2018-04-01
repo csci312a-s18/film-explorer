@@ -7,6 +7,11 @@ class Genre extends Model {
     return 'Genre';
   }
 
+  // Indicate our composite primary key (instead of id)
+  static get idColumn() {
+    return ['movieId', 'genreId'];
+  }
+
   // This object defines the relations to other models.
   static get relationMappings() {
     return {

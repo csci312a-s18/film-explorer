@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const path = require('path');
 const { Model } = require('objection');
 
@@ -7,14 +8,26 @@ class Movie extends Model {
     return 'Movie';
   }
 
-  // Use virtual attributes to mimic the data returned by the mongoDB server
+  // We override the JSON formatting and parsing so that we can use
+  // a flat Array for genre_ids in our interface instead of nested objects, for
+  // just accessing genre_ids as an array, we could use virtual attributes
   // http://vincit.github.io/objection.js/#virtualattributes
-  static get virtualAttributes() {
-    return ['genre_ids'];
+
+  // Render model to JSON with just genre_ids property, like
+  // original MongoDB version, instead of nested genre objects
+  $formatJson(json) {
+    const { genres, ...extJson } = super.$formatJson(json); // Separate out genres
+    return Object.assign(extJson, { genre_ids: this.genres.map(genre => genre.genreId) });
   }
 
-  genre_ids() { // eslint-disable-line camelcase
-    return this.genres.map(genre => genre.id);
+  // Parse the genre_ids into nested objects to facilitate upsertGraph queries
+  $parseJson(json, opt) {
+    const { genre_ids, ...extJson } = json;
+    const genres = (genre_ids || []).map(genreId => ({
+      movieId: this.$id() || extJson.id, genreId,
+    }));
+    Object.assign(extJson, { genres });
+    return super.$parseJson(extJson, opt);
   }
 
   static get relationMappings() {
@@ -29,6 +42,23 @@ class Movie extends Model {
           from: 'Movie.id',
           to: 'Genre.movieId',
         },
+      },
+    };
+  }
+
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      required: ['id', 'overview', 'release_date', 'poster_path', 'title', 'vote_average'],
+
+      properties: {
+        id: { type: 'integer' },
+        overview: { type: 'text' },
+        release_date: { type: 'string' },
+        poster_path: { type: 'string' },
+        title: { type: 'string' },
+        vote_average: { type: 'number' },
+        rating: { type: ['integer', 'null'], minimum: 0, maximum: 5 },
       },
     };
   }

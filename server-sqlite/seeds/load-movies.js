@@ -28,7 +28,7 @@ exports.seed = function (knex, Promise) {
           poster_path,
           title,
           vote_average,
-          genres: genre_ids.map(genre_id => ({ id: genre_id })),
+          genre_ids,
         });
       });
       // Insert the graph as a single transaction

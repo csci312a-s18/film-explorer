@@ -5,6 +5,7 @@
 
 # testing
 /coverage
+movies-test.db
 
 # production
 /build
