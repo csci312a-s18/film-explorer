@@ -12,6 +12,13 @@ module.exports = {
     seeds: {
       directory: './seeds/test',
     },
+    // Needed to enforce foreign key constraints in SQLite
+    // https://github.com/tgriesser/knex/issues/453
+    pool: {
+      afterCreate: (conn, cb) => {
+        conn.run('PRAGMA foreign_keys = ON', cb);
+      },
+    },
   },
   development: {
     client: 'sqlite3',
@@ -19,6 +26,11 @@ module.exports = {
       filename: './movies.db',
     },
     useNullAsDefault: true,
+    pool: {
+      afterCreate: (conn, cb) => {
+        conn.run('PRAGMA foreign_keys = ON', cb);
+      },
+    },
   },
   production: {
     client: 'sqlite3',
@@ -26,5 +38,10 @@ module.exports = {
       filename: './movies.db',
     },
     useNullAsDefault: true,
+    pool: {
+      afterCreate: (conn, cb) => {
+        conn.run('PRAGMA foreign_keys = ON', cb);
+      },
+    },
   },
 };

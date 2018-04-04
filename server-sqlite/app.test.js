@@ -20,6 +20,10 @@ describe('Film Explorer API', () => {
       .then(() => knex.seed.run());
   });
 
+  afterEach(() => {
+    return knex.migrate.rollback();
+  });
+
   // SuperTest has several helpful methods for conveniently testing responses
   // that we can use to make the tests more concises
 
@@ -51,9 +55,5 @@ describe('Film Explorer API', () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .expect(movie);
-  });
-
-  afterEach(() => {
-    return knex.migrate.rollback();
   });
 });
