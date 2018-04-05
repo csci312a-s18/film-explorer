@@ -12,7 +12,8 @@ exports.up = function (knex, Promise) {
       table.integer('rating');
     })
     .createTable('Genre', (table) => {
-      table.integer('movieId').unsigned().references('id').inTable('Movie').onDelete('CASCADE');
+      table.integer('movieId').unsigned().references('id').inTable('Movie')
+        .onDelete('CASCADE');
       table.integer('genreId');
       table.primary(['movieId', 'genreId']);
     });

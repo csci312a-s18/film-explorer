@@ -44,6 +44,39 @@ describe('FilmExplorer Movie Model', () => {
       });
     });
 
+    test('Adding Rating from Movie with ratings', () => {
+      return Movie.query().findById(135397)
+        .then((modelMovie) => {
+          return modelMovie.$relatedQuery('ratings').insert({
+            userId: 2,
+            rating: 4,
+          }).return(modelMovie);
+        })
+        .then((modelMovie) => {
+          // At this point we only have the single rating we just added
+          return modelMovie.$query().eager('ratings');
+        })
+        .then((modelMovie) => {
+          expect(modelMovie.ratings).toHaveLength(2);
+        });
+    });
+
+    test('Adding Rating from Movie with users', () => {
+      return Movie.query().findById(135397)
+        .then((modelMovie) => {
+          return modelMovie.$relatedQuery('users').relate({
+            id: 2,
+            rating: 4,
+          }).return(modelMovie);
+        })
+        .then((modelMovie) => {
+          return modelMovie.$query().eager('users');
+        })
+        .then((modelMovie) => {
+          expect(modelMovie).toHaveProperty('users');
+        });
+    });
+
     afterEach(() => {
       return knex.migrate.rollback();
     });

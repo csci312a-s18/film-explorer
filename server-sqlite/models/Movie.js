@@ -43,6 +43,29 @@ class Movie extends Model {
           to: 'Genre.movieId',
         },
       },
+      ratings: {
+        relation: Model.HasManyRelation,
+        modelClass: path.join(__dirname, 'Rating'),
+        join: {
+          from: 'Movie.id',
+          to: 'Rating.movieId',
+        },
+      },
+      users: {
+        relation: Model.ManyToManyRelation,
+        modelClass: path.join(__dirname, 'User'),
+        join: {
+          from: 'Movie.id',
+          through: {
+            // Rating is the join table.
+            from: 'Rating.movieId',
+            to: 'Rating.userId',
+            modelClass: path.join(__dirname, 'Rating'),
+            extra: ['rating'],
+          },
+          to: 'User.id',
+        },
+      },
     };
   }
 
