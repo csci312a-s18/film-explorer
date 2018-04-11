@@ -7,9 +7,8 @@
   "scripts": {
     "postinstall": "node postinstall.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node index.js",
+    "start": "node index.js",
     "mongo": "mongod --config mongod.conf",
-    "start": "concurrently \"npm run mongo\" \"npm run server\"",
     "lint": "eslint ."
   },
   "keywords": [],

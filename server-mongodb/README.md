@@ -14,7 +14,7 @@ mongoimport --db film-explorer --collection movies --jsonArray movies.json --por
 
 ## Running
 
-Concurrently launch the MongoDB server and application server with `npm run start`. This will start the database (equivalent to `mongod --config mongod.conf`) and the application server (equivalent to `node index.js`). By default the application is available at <http://localhost:3001>.
+In one terminal, start MongoDB with `npm run mongo` (equivalent to `mongod --config mongod.conf`). Then in another terminal launch the application server  with `npm run start` (equivalent to `node index.js`). By default the application is available at <http://localhost:3001>.
 
 ## Development
 

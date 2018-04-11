@@ -6,7 +6,9 @@ The client was created with [create-react-app](https://github.com/facebookincuba
 
 ## Running the Application
 
-The combined application, client and server, can be run with `npm start:[memory,mongo,sqlite]`, e.g. `npm start:memory`, in the top-level directory. `npm start:[memory,mongo,sqlite]` launches the client development server on http://localhost:3000 and the specified server on http://localhost:3001 (one of memory, mongo, sqlite). By setting the `proxy` field in the client `package.json`, the client development server will proxy any unrecognized requests to the server.
+The combined application, client and server, can be run with `npm run start:[memory,mongo,sqlite]`, e.g. `npm run start:memory`, in the top-level directory. `npm run start:[memory,mongo,sqlite]` launches the client development server on http://localhost:3000 and the specified server on http://localhost:3001 (one of memory, mongo, sqlite). By setting the `proxy` field in the client `package.json`, the client development server will proxy any unrecognized requests to the server.
+
+*Note* that for the MongoDB-backed server you need to have started the MongoDB database in another terminal window with `npm run mongo --prefix server-mongodb` (executed in the top-level directory) before executing `npm run start:mongo`.
 
 ## Testing
 
