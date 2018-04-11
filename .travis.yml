@@ -13,6 +13,6 @@ cache:
 script:
   - npm run build --prefix client
   - npm test --prefix client
-  - npm run lint lint --prefix client
+  - npm run lint --prefix client
   - npm test --prefix server-sqlite
   - npm run lint --prefix server-sqlite
