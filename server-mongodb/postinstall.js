@@ -3,6 +3,6 @@ const fs = require('fs');
 
 const dir = './data';
 const env = process.env.NODE_ENV || 'development';
-if (process.env.NODE_ENV === 'development' && !fs.existsSync(dir)) {
+if (env === 'development' && !fs.existsSync(dir)) {
   fs.mkdirSync(dir);
 }
